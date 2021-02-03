@@ -168,6 +168,6 @@ class Game:
                 self.pantalla.blit(self.game_over.imagen, (self.game_over.x, self.game_over.y))
 
 
-# Refrescamos
+# Refrescamos 
 
             pg.display.flip()
