@@ -219,10 +219,6 @@ class Game:
             if self.nave.x >= 1366:
                 self.pantalla.blit(self.mision_cumplida.imagen, (self.mision_cumplida.x, self.mision_cumplida.y))
 
-
-
-
-
 # Refrescamos 
 
             pg.display.flip()
