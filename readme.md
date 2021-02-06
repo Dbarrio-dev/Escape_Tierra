@@ -1,4 +1,4 @@
-# Para poder ejecurtarlo es necesario:
+# Para poder ejecutarlo es necesario:
 
 1. Abre tu Visual Studio Code
 
@@ -15,3 +15,4 @@
 7. Introduce en el terminal "pip freeze >requerimetns.txt" para las instalaciones necesarias que necesita el juego
 
 8. Por ultimo, para Iniciar el juego escribe en el terminal "python main.py" 
+
