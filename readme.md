@@ -14,7 +14,7 @@
 
 6. Abre el entorno virual con el siguiente paramentro "venv\Scripts\activate" en el caso de Windows  o "venv/bin/activate" en el caso de Mac
 
-7. Introduce en el terminal "pip install -r requetiments.txt" para las instalaciones necesarias que necesita el juego
+7. Introduce en el terminal "pip install -r requeriments.txt" para las instalaciones necesarias que necesita el juego
 
 8. Por ultimo, para Iniciar el juego escribe en el terminal "python main.py" 
 
