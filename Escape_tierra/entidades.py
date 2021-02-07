@@ -46,7 +46,7 @@ class Nave:
         self.y = y
         self.vx = vx
         self.vy = vy
-
+        self.imagen_over = ("recursos/imagenes/Gameover.png")
         self.imagen = pg.image.load("recursos/imagenes/Normandy.png")
         self.imagenes = ("Normandy.png","explosion00.png","explosion01.png","explosion02.png","explosion03.png","explosion04.png","explosion05.png","explosion06.png","explosion07.png","explosion08.png")
         self.imagen_act = 0
@@ -60,6 +60,11 @@ class Nave:
         if self.imagen_act >= len(self.imagenes):
             self.imagen_act = 8
         self.imagen = pg.image.load(f"recursos/imagenes/{self.imagenes[self.imagen_act]}")
+        if self.imagen_act == 8:
+            self.imagen = pg.image.load("recursos/imagenes/Gameover.jpg")
+            self.x = 0
+            self.y = 0
+
 
     def colision_1 (self, algo_1):
 
@@ -70,6 +75,10 @@ class Nave:
         if self.imagen_act >= len(self.imagenes):
             self.imagen_act = 8
         self.imagen = pg.image.load(f"recursos/imagenes/{self.imagenes[self.imagen_act]}")
+        if self.imagen_act == 8:
+            self.imagen = pg.image.load("recursos/imagenes/Gameover.jpg")
+            self.x = 0
+            self.y = 0
 
     def colision_2 (self, algo_2):
 
@@ -80,6 +89,10 @@ class Nave:
         if self.imagen_act >= len(self.imagenes):
             self.imagen_act = 8
         self.imagen = pg.image.load(f"recursos/imagenes/{self.imagenes[self.imagen_act]}")
+        if self.imagen_act == 8:
+            self.imagen = pg.image.load("recursos/imagenes/Gameover.jpg")
+            self.x = 0
+            self.y = 0
 
 class Fondo:
     def __init__(self, x, y, vx, vy):
@@ -125,7 +138,7 @@ class Game:
         self.marcador = pg.font.Font("recursos/fuente/OpenSans-Bold.ttf", 24)
         self.game_over = Game_over (0, 0, 0, 0)
         self.mision_cumplida = Mision_Cumplida (0, 0, 0, 0)
-        self.acero = 0
+        self.acero = True
         self.clock = pg.time.Clock()
 
     def bucle_pricipal(self):
@@ -158,7 +171,7 @@ class Game:
                     if event.key == pg.K_SPACE:
                         self.inicio.inicar_juego = True
 
-# Insertamos los objetos
+# Inincio
 
             if self.inicio.inicar_juego == False:
                 self.pantalla.blit(self.inicio.imagen, (self.inicio.x, self.inicio.y))
@@ -167,7 +180,7 @@ class Game:
                 self.historia.y -= self.historia.vy
                 if self.historia.y + 775 <= self.historia.x:
 
-#Juengo principal#
+#Juengo principal
 
                     self.pantalla.blit(self.fondo_estrellado.imagen, (self.fondo_estrellado.x, self.fondo_estrellado.y))
 
@@ -193,21 +206,23 @@ class Game:
 
                     puntuacion = self.marcador.render(str(self.acero), True, (255,255,255))
                     self.pantalla.blit(puntuacion, (10, 10))
-                    self.acero = self.acero +1
+                    self.acero = self.acero +3
 
-#Juengo principal#
+#Que pare el contador y me de la opcion de volver al intentarlo
 
-            self.nave.colision(self.asteroide)
-            self.nave.colision_1(self.asteroide_1)
-            self.nave.colision_2(self.asteroide_2)
+            if self.nave.colision(self.asteroide):
+                self.acero = False
 
-#aninmacion destruccion y patalla game over y animacion de victoria y pantalla sql
+            if self.nave.colision_1(self.asteroide_1):
+                self.acero = False
 
-# A partir de aqui metido a capon quizas haya que descostruir
+            if self.nave.colision_2(self.asteroide_2):
+                self.acero = False
 
+#Rotacion rotacion de la nave, record y volver a incio
 
-            if self.acero >= 1000:
-                self.acero = 1000
+            if self.acero >= 5000:
+                self.acero = 5000
                 self.nave.x += self.nave.vx +3
                 self.asteroide.vx = 0
                 self.asteroide.x = 2500
