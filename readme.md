@@ -1,18 +1,19 @@
-# Para poder ejecurtarlo es necesario:
+# Para poder ejecutarlo es necesario:
 
-1. Abre tu Visual Studio Code
+1. Crea una carpeta donde deseas que se decargue el juego.
 
-2. Crea una carpeta donde deseas que se decargue el juego.
+2. Abre tu Visual Studio Code.
 
-3. Cuando estres en ese carpeta, selecciona en las opciones de Visual Code "Termina" y "New Terminal"
+3. Selecciona en las opciones de Visual Code "Terminal" y "New Terminal"
 
-4. Pega el siguiente comando en el Terminal "$ git clone https://github.com/Dbarrio-dev/Escape_Tierra.git"
+4. Desde el terminal abre la carpeta que has creado para descargar el juego.
 
-5. Crea un entorno vitrual en el Terminal con el siguiente parametro "python -m venv venv" en el caso de Windows  o "" en el caso de Mac
+4. Pega el siguiente comando en el Terminal "git clone https://github.com/Dbarrio-dev/Escape_Tierra.git"
 
-6. Abre el entorno virual con el siguiente paramentro "venv\Scripts\activate" en el caso de Windows  o "" en el caso de Mac
+5. Crea un entorno vitrual en el Terminal con el siguiente parametro "python -m venv venv"
 
-7. Introduce en el terminal "pip freeze >requerimetns.txt" para las instalaciones necesarias que necesita el juego
+6. Abre el entorno virual con el siguiente paramentro "venv\Scripts\activate" en el caso de Windows  o "venv/bin/activate" en el caso de Mac.
+
+7. Introduce en el terminal y dentro de la carpeta Escape_Tierra "pip install -r requirements.txt" para las instalaciones necesarias que necesita el juego.
 
 8. Por ultimo, para Iniciar el juego escribe en el terminal "python main.py" 
-
