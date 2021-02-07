@@ -129,7 +129,7 @@ class Game:
         pg.display.set_caption("Escape de la tierra")
 
         self.inicio = Inicio(0, 0, 0, 0)
-        self.historia = Pantalla_historia(0, 768, 0, 15)
+        self.historia = Pantalla_historia(0, 768, 0, 1)
         self.fondo_estrellado = Fondo(0, 0, 0, 0)
         self.asteroide = Asteroide(1366, random.randint(0, 768), -1, 0)
         self.asteroide_1 = Asteroide(1366, random.randint(0, 768), -2, 0)
