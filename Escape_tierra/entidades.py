@@ -3,6 +3,7 @@ import pygame.locals
 from Escape_tierra import FPS
 import random
 import sys
+import sqlite3
 
 pg.init()
 
@@ -64,6 +65,7 @@ class Nave:
             self.imagen = pg.image.load("recursos/imagenes/Gameover.jpg")
             self.x = 0
             self.y = 0
+            marcador_1 = False
 
 
     def colision_1 (self, algo_1):
@@ -136,10 +138,51 @@ class Game:
         self.asteroide_2 = Asteroide(1366, random.randint(0, 768), -3, 0)
         self.nave = Nave (-5, 384, 0, 10)
         self.marcador = pg.font.Font("recursos/fuente/OpenSans-Bold.ttf", 24)
+
         self.game_over = Game_over (0, 0, 0, 0)
         self.mision_cumplida = Mision_Cumplida (0, 0, 0, 0)
-        self.acero = True
+
+        self.repetir_juego = False
+
+        self.acero = 0
+
         self.clock = pg.time.Clock()
+        self.record = pg.font.Font("recursos/fuente/OpenSans-Bold.ttf", 32)
+        self.record_1 = ""
+
+    def base_de_datos():
+        conn = sqlite3.connect("recursos/data/tabla_records.db")
+        c = conn.cursor()
+        c.execute('SELECT Puntuacion, Iniciales FROM tabla_record;')
+
+    def juego_repetido(self):
+
+        self.pantalla.blit(self.fondo_estrellado.imagen, (self.fondo_estrellado.x, self.fondo_estrellado.y))
+
+        self.pantalla.blit(self.asteroide.imagen, (self.asteroide.x, self.asteroide.y))
+        self.asteroide.x += self.asteroide.vx
+        if self.asteroide.x < -50:
+            self.asteroide = Asteroide(1366, random.randint(0, 768), 0, 0)
+        self.asteroide.vx = self.asteroide.vx -0.05
+
+#        self.pantalla.blit(self.asteroide_1.imagen, (self.asteroide_1.x, self.asteroide_1.y))
+#        self.asteroide_1.x += self.asteroide_1.vx
+#        if self.asteroide_1.x < -50:
+#           self.asteroide_1 = Asteroide(1366, random.randint(0, 768), 0, 0)
+#        self.asteroide_1.vx = self.asteroide_1.vx -0.10
+
+#       self.pantalla.blit(self.asteroide_2.imagen, (self.asteroide_2.x, self.asteroide_2.y))
+#       self.asteroide_2.x += self.asteroide_2.vx
+#       if self.asteroide_2.x < -50:
+#          self.asteroide_2 = Asteroide(1366, random.randint(0, 768), 0, 0)
+#        self.asteroide_2.vx = self.asteroide_2.vx -0.15
+
+        self.pantalla.blit(self.nave.imagen, (self.nave.x, self.nave.y))
+        self.nave.x = -5
+
+        self.acero = 0
+
+        pg.display.flip()
 
     def bucle_pricipal(self):
         cierre = False
@@ -155,21 +198,34 @@ class Game:
                     pg.quit()
                     sys.exit()
 
-                if event.type == pg.KEYUP:
-                    if event.key == pg.K_UP:
-                        self.nave.y -= 25
-                        if self.nave.y <= 0:
-                            self.nave.y = 0
+                teclas_pulsadas = pg.key.get_pressed()
+                if teclas_pulsadas[pygame.locals.K_UP]:
+                    self.nave.y -= 30
+                    if self.nave.y <= 0:
+                        self.nave.y = 0
+
+                if teclas_pulsadas[pygame.locals.K_DOWN]:
+                    self.nave.y += 30
+                    if self.nave.y + 72 >= 768:
+                        self.nave.y = 768 - 72
+
+                if event.type == pg.KEYDOWN: 
+                    if event.key == pygame.K_SPACE:
+                        self.inicio.inicar_juego = True
 
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_DOWN:
-                        self.nave.y += 25
-                        if self.nave.y + 72 >= 768:
-                            self.nave.y = 768 - 72
+                    if event.key == pygame.K_BACKSPACE:
+                        self.record_1 = self.record_1[:-1]
+                    else:
+                        self.record_1 += event.unicode
 
-                if event.type == pg.KEYUP: 
-                    if event.key == pg.K_SPACE:
-                        self.inicio.inicar_juego = True
+                if event.type == pg.KEYDOWN:
+                    if event.key == pygame.K_1:
+                        self.repetir_juego = True
+
+                if event.type == pg.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        cierre = True
 
 # Inincio
 
@@ -190,17 +246,17 @@ class Game:
                         self.asteroide = Asteroide(1366, random.randint(0, 768), 0, 0)
                     self.asteroide.vx = self.asteroide.vx -0.05
 
-                    self.pantalla.blit(self.asteroide_1.imagen, (self.asteroide_1.x, self.asteroide_1.y))
-                    self.asteroide_1.x += self.asteroide_1.vx
-                    if self.asteroide_1.x < -50:
-                        self.asteroide_1 = Asteroide(1366, random.randint(0, 768), 0, 0)
-                    self.asteroide_1.vx = self.asteroide_1.vx -0.10
+#                    self.pantalla.blit(self.asteroide_1.imagen, (self.asteroide_1.x, self.asteroide_1.y))
+#                    self.asteroide_1.x += self.asteroide_1.vx
+#                    if self.asteroide_1.x < -50:
+#                        self.asteroide_1 = Asteroide(1366, random.randint(0, 768), 0, 0)
+#                    self.asteroide_1.vx = self.asteroide_1.vx -0.10
 
-                    self.pantalla.blit(self.asteroide_2.imagen, (self.asteroide_2.x, self.asteroide_2.y))
-                    self.asteroide_2.x += self.asteroide_2.vx
-                    if self.asteroide_2.x < -50:
-                        self.asteroide_2 = Asteroide(1366, random.randint(0, 768), 0, 0)
-                    self.asteroide_2.vx = self.asteroide_2.vx -0.15
+#                    self.pantalla.blit(self.asteroide_2.imagen, (self.asteroide_2.x, self.asteroide_2.y))
+#                    self.asteroide_2.x += self.asteroide_2.vx
+#                    if self.asteroide_2.x < -50:
+#                        self.asteroide_2 = Asteroide(1366, random.randint(0, 768), 0, 0)
+#                    self.asteroide_2.vx = self.asteroide_2.vx -0.15
 
                     self.pantalla.blit(self.nave.imagen, (self.nave.x, self.nave.y))
 
@@ -208,22 +264,18 @@ class Game:
                     self.pantalla.blit(puntuacion, (10, 10))
                     self.acero = self.acero +3
 
-#Que pare el contador y me de la opcion de volver al intentarlo
+            self.nave.colision(self.asteroide)
 
-            if self.nave.colision(self.asteroide):
-                self.acero = False
+#            self.nave.colision_1(self.asteroide_1)
 
-            if self.nave.colision_1(self.asteroide_1):
-                self.acero = False
+#            self.nave.colision_2(self.asteroide_2)
 
-            if self.nave.colision_2(self.asteroide_2):
-                self.acero = False
+            if self.acero >= 500:
 
-#Rotacion rotacion de la nave, record y volver a incio
 
-            if self.acero >= 5000:
-                self.acero = 5000
-                self.nave.x += self.nave.vx +3
+                self.acero = 500
+                self.nave.x += self.nave.vx +5
+
                 self.asteroide.vx = 0
                 self.asteroide.x = 2500
                 self.asteroide_1.vx = 0
@@ -231,8 +283,19 @@ class Game:
                 self.asteroide_2.vx = 0
                 self.asteroide_2.x = 2500
 
-            if self.nave.x >= 1366:
+            if self.nave.x >= 930:
+                self.nave.vx = 0
                 self.pantalla.blit(self.mision_cumplida.imagen, (self.mision_cumplida.x, self.mision_cumplida.y))
+
+                tabla_record = self.record.render(str(self.record_1), True, (255,255,255))
+                self.pantalla.blit(tabla_record, (647, 300))
+
+            if self.repetir_juego == True:
+                self.juego_repetido()
+
+                puntuacion = self.marcador.render(str(self.acero), True, (255,255,255))
+                self.pantalla.blit(puntuacion, (10, 10))
+                self.acero = self.acero +3
 
 # Refrescamos 
 
