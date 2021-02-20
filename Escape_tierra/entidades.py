@@ -270,10 +270,10 @@ class Game:
 
 #            self.nave.colision_2(self.asteroide_2)
 
-            if self.acero >= 5000:
+            if self.acero >= 500:
 
 
-                self.acero = 5000
+                self.acero = 500
                 self.nave.x += self.nave.vx +5
 
                 self.asteroide.vx = 0
@@ -292,6 +292,10 @@ class Game:
 
             if self.repetir_juego == True:
                 self.juego_repetido()
+
+                puntuacion = self.marcador.render(str(self.acero), True, (255,255,255))
+                self.pantalla.blit(puntuacion, (10, 10))
+                self.acero = self.acero +3
 
 # Refrescamos 
 
